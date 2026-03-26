@@ -1,4 +1,4 @@
-package dev.sobhy.gameya.data.entity
+package dev.sobhy.gameya.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -6,22 +6,23 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "members",
+    tableName = "cycles",
     foreignKeys = [
         ForeignKey(
-            entity = GroupEntity::class,
+            entity = ShareEntity::class,
             parentColumns = ["id"],
-            childColumns = ["groupId"],
+            childColumns = ["payoutShareId"],
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index("groupId")]
+    indices = [Index("groupId"), Index("payoutShareId")]
 )
-data class MemberEntity(
+data class CycleEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val groupId: Long,
-    val name: String,
-    val phone: String?,
-    val shares: Double
+    val cycleIndex: Int,
+    val date: Long,
+    val payoutShareId: Long,
+    val isClosed: Boolean
 )

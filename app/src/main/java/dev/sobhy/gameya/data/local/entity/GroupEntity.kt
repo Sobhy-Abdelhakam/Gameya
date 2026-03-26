@@ -1,4 +1,4 @@
-package dev.sobhy.gameya.data.entity
+package dev.sobhy.gameya.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
