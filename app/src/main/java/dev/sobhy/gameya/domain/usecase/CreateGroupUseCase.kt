@@ -3,8 +3,9 @@ package dev.sobhy.gameya.domain.usecase
 import dev.sobhy.gameya.domain.model.Group
 import dev.sobhy.gameya.domain.model.Member
 import dev.sobhy.gameya.domain.repository.GroupRepository
+import javax.inject.Inject
 
-class CreateGroupUseCase(
+class CreateGroupUseCase @Inject constructor(
     private val repository: GroupRepository
 ) {
     suspend operator fun invoke(
