@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import dev.sobhy.gameya.presentation.dashboard.DashboardScreen
 import dev.sobhy.gameya.presentation.group.CreateGroupScreen
 import dev.sobhy.gameya.presentation.groupdetails.GroupDetailsScreen
 
@@ -14,7 +15,10 @@ import dev.sobhy.gameya.presentation.groupdetails.GroupDetailsScreen
 fun AppNavHost(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Screen.CreateGroup.route, modifier = modifier){
+    NavHost(navController = navController, startDestination = Screen.Dashboard.route, modifier = modifier){
+        composable(Screen.Dashboard.route) {
+            DashboardScreen(navController)
+        }
         composable(Screen.CreateGroup.route){
             CreateGroupScreen(navController)
         }
