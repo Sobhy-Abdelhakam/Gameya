@@ -80,4 +80,16 @@ class GroupRepositoryImpl @Inject constructor(
             )
         }
     }
+//    override suspend fun updateShareOrder(
+//        shareId: Long,
+//        newIndex: Int
+//    ) {
+//        db.shareDao().updateOrder(shareId, newIndex)
+//    }
+@Transaction
+suspend fun updateSharesOrderBulk(updates: List<Pair<Long, Int>>) {
+    updates.forEach { (id, orderIndex) ->
+        db.shareDao().updateOrder(id, orderIndex)
+    }
+}
 }

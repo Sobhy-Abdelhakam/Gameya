@@ -15,4 +15,7 @@ interface GroupRepository {
     fun getGroups(): Flow<List<Group>>
 
     fun getGroupDetails(groupId: Long): Flow<GroupDetails>
+
+    //    suspend fun updateShareOrder(shareId: Long, newIndex: Int)
+    suspend fun updateSharesOrderBulk(updates: List<Pair<Long, Int>>)
 }
