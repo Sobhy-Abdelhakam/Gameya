@@ -23,7 +23,7 @@ class GroupRepositoryImpl @Inject constructor(
     override suspend fun createGroup(
         group: Group,
         members: List<Member>
-    ) {
+    ): Long {
 
         // 1. Insert Group
         val groupId = db.groupDao().insertGroup(group.toEntity())
@@ -56,6 +56,8 @@ class GroupRepositoryImpl @Inject constructor(
         )
 
         db.cycleDao().insertCycles(cycles.map { it.toEntity() })
+
+        return groupId
     }
 
     override fun getGroups(): Flow<List<Group>> {

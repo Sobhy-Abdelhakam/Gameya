@@ -92,7 +92,7 @@ class CreateGroupViewModel @Inject constructor(private val createGroupUseCase: C
             _state.update { it.copy(isLoading = true, error = null) }
 
             try {
-                createGroupUseCase(
+                val groupId = createGroupUseCase(
                     Group(
                         name = current.name,
                         contributionPerShare = contribution,
@@ -103,7 +103,7 @@ class CreateGroupViewModel @Inject constructor(private val createGroupUseCase: C
                 )
 
                 _state.update {
-                    it.copy(isLoading = false, isSuccess = true)
+                    it.copy(isLoading = false, isSuccess = true, createdGroupId = groupId)
                 }
 
             } catch (e: Exception) {

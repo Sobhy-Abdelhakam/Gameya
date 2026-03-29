@@ -11,10 +11,10 @@ class CreateGroupUseCase @Inject constructor(
     suspend operator fun invoke(
         group: Group,
         members: List<Member>
-    ) {
+    ): Long {
         require(members.isNotEmpty())
         require(members.all { it.shares > 0 })
 
-        repository.createGroup(group, members)
+        return repository.createGroup(group, members)
     }
 }

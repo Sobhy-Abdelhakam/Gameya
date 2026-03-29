@@ -13,5 +13,7 @@ data class CreateGroupState(
 
     val isLoading: Boolean = false,
     val error: String? = null,
-    val isSuccess: Boolean = false
+    val isSuccess: Boolean = false,
+
+    val createdGroupId: Long? = null
 )

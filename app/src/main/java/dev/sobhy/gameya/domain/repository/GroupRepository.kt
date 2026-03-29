@@ -10,7 +10,7 @@ interface GroupRepository {
     suspend fun createGroup(
         group: Group,
         members: List<Member>
-    )
+    ): Long
 
     fun getGroups(): Flow<List<Group>>
 
