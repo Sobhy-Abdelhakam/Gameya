@@ -64,4 +64,5 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
+    implementation("androidx.navigation:navigation-compose:2.9.7")
 }

@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
+import dev.sobhy.gameya.navigation.AppNavHost
 import dev.sobhy.gameya.presentation.group.CreateGroupScreen
 import dev.sobhy.gameya.ui.theme.GameyaTheme
 
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             GameyaTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    CreateGroupScreen(modifier = Modifier.padding(innerPadding))
+                    AppNavHost(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
