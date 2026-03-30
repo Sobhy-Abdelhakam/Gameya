@@ -1,6 +1,5 @@
 package dev.sobhy.gameya.presentation.groupdetails
 
-import android.R.attr.alpha
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Arrangement
@@ -35,10 +34,6 @@ import androidx.compose.ui.unit.dp
 import dev.sobhy.gameya.domain.model.Cycle
 import dev.sobhy.gameya.domain.model.Member
 import dev.sobhy.gameya.domain.model.Share
-import org.burnoutcrew.reorderable.ReorderableItem
-import org.burnoutcrew.reorderable.detectReorderAfterLongPress
-import org.burnoutcrew.reorderable.rememberReorderableLazyListState
-import org.burnoutcrew.reorderable.reorderable
 
 @Composable
 fun GroupDetailsContent(
