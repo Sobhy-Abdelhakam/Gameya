@@ -71,10 +71,13 @@ class GroupDetailsViewModel @Inject constructor(
     }
 
     fun onReorder(from: Int, to: Int) {
+        if (from == to) return
+
         val current = _state.value.shares.toMutableList()
+        val safeTo = to.coerceIn(0, current.lastIndex)
 
         val item = current.removeAt(from)
-        current.add(to, item)
+        current.add(safeTo, item)
 
         val updated = current.mapIndexed { index, share ->
             share.copy(orderIndex = index)
@@ -85,10 +88,11 @@ class GroupDetailsViewModel @Inject constructor(
         }
 
         // ✅ async persist
-        persistShareOrder(updated)
+        persistShareOrder()
     }
 
-    private fun persistShareOrder(shares: List<Share>) {
+    private fun persistShareOrder() {
+        val shares = _state.value.shares
         viewModelScope.launch {
             try {
                 repository.updateSharesOrderBulk(
