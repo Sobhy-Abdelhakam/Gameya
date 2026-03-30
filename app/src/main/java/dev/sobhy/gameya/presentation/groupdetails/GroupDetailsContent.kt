@@ -1,6 +1,7 @@
 package dev.sobhy.gameya.presentation.groupdetails
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,12 +32,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import dev.sobhy.gameya.domain.model.Cycle
 import dev.sobhy.gameya.domain.model.Member
 import dev.sobhy.gameya.domain.model.Share
+import dev.sobhy.gameya.navigation.Screen
 
 @Composable
 fun GroupDetailsContent(
+    navController: NavController,
     state: GroupDetailsState,
     onTabChange: (Int) -> Unit,
     onReorder: (Int, Int) -> Unit
@@ -51,7 +55,7 @@ fun GroupDetailsContent(
         when (state.selectedTab) {
             0 -> MembersTab(state)
             1 -> SharesTab(state, onReorder)
-            2 -> CyclesTab(state)
+            2 -> CyclesTab(state, navController)
         }
     }
 }
@@ -91,34 +95,6 @@ private fun MembersTab(state: GroupDetailsState) {
         }
     }
 }
-//@Composable
-//private fun SharesTab(
-//    state: GroupDetailsState,
-//    onReorder: (Int, Int) -> Unit
-//) {
-//    val reorderState = rememberReorderableLazyListState(
-//        onMove = { from, to -> onReorder(from.index, to.index) }
-//    )
-//
-//    LazyColumn(
-//        state = reorderState.listState,
-//        modifier = Modifier
-//            .reorderable(reorderState)
-//            .detectReorderAfterLongPress(reorderState),
-//        contentPadding = PaddingValues(12.dp),
-//        verticalArrangement = Arrangement.spacedBy(8.dp)
-//    ) {
-//
-//        items(state.shares, key = { it.id }) { share ->
-//
-//            val member = state.members.find { it.id == share.memberId }
-//
-//            ReorderableItem(reorderState, key = share.id) { isDragging ->
-//                ShareItem(share, member, isDragging)
-//            }
-//        }
-//    }
-//}
 @Composable
 private fun SharesTab(
     state: GroupDetailsState,
@@ -222,7 +198,7 @@ private fun calculateNewIndex(
     }
 }
 @Composable
-private fun CyclesTab(state: GroupDetailsState) {
+private fun CyclesTab(state: GroupDetailsState, navController: NavController) {
 
     if (state.cycles.isEmpty()) {
         EmptyState("No cycles yet")
@@ -234,7 +210,7 @@ private fun CyclesTab(state: GroupDetailsState) {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(state.cycles, key = { it.id }) { cycle ->
-            CycleItem(cycle)
+            CycleItem(cycle, navController)
         }
     }
 }
@@ -303,15 +279,20 @@ private fun ShareItem(
     }
 }
 @Composable
-private fun CycleItem(cycle: Cycle) {
+private fun CycleItem(cycle: Cycle, navController: NavController) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable {
+                navController.navigate(
+                    Screen.CyclePayments.createRoute(cycle.id)
+                )
+            }
     ) {
         Text(
             text = "Cycle ${cycle.cycleIndex + 1}",
-            modifier = Modifier.padding(16.dp),
-            style = MaterialTheme.typography.titleMedium
+            modifier = Modifier.padding(16.dp)
         )
     }
 }

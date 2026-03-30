@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import dev.sobhy.gameya.presentation.dashboard.DashboardScreen
 import dev.sobhy.gameya.presentation.group.CreateGroupScreen
 import dev.sobhy.gameya.presentation.groupdetails.GroupDetailsScreen
+import dev.sobhy.gameya.presentation.payments.CyclePaymentsScreen
 
 @Composable
 fun AppNavHost(modifier: Modifier = Modifier) {
@@ -28,7 +29,15 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                 navArgument("groupId") { type = NavType.LongType }
             )
         ) {
-            GroupDetailsScreen()
+            GroupDetailsScreen(navController = navController)
+        }
+        composable(
+            route = Screen.CyclePayments.route,
+            arguments = listOf(
+                navArgument("cycleId") { type = NavType.LongType }
+            )
+        ) {
+            CyclePaymentsScreen()
         }
     }
 }
