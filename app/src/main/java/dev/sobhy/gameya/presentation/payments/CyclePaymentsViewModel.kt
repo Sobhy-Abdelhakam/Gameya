@@ -10,6 +10,7 @@ import dev.sobhy.gameya.domain.usecase.GetPaymentsWithStatusUseCase
 import dev.sobhy.gameya.domain.usecase.RecordPaymentUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,20 +36,34 @@ class CyclePaymentsViewModel @Inject constructor(
 
     private fun loadPayments() {
         viewModelScope.launch {
+            try {
+                val cycle = repository.getCycleById(cycleId)
+                val members = repository
+                    .getGroupDetails(cycle.groupId)
+                    .first()
+                    .members
 
-            val cycle = repository.getCycleById(cycleId)
+                getCyclePayments(cycleId).collect { payments ->
 
-            getCyclePayments(cycleId).collect { payments ->
+                    val updatedPayments = getPaymentsWithStatus(
+                        payments = payments,
+                        cycle = cycle
+                    )
 
-                val updatedPayments = getPaymentsWithStatus(
-                    payments = payments,
-                    cycle = cycle
-                )
-
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            payments = updatedPayments,
+                            members = members,
+                            error = null
+                        )
+                    }
+                }
+            } catch (e: Exception) {
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        payments = updatedPayments
+                        error = e.message ?: "Failed to load payments"
                     )
                 }
             }

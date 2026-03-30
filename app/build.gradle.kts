@@ -64,4 +64,7 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
     implementation("androidx.navigation:navigation-compose:2.9.7")
+    implementation("androidx.work:work-runtime-ktx:2.10.0")
+    implementation("com.google.code.gson:gson:2.11.0")
+    implementation("androidx.compose.material:material-icons-extended")
 }

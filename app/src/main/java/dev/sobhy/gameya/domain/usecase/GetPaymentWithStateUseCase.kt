@@ -3,9 +3,10 @@ package dev.sobhy.gameya.domain.usecase
 import dev.sobhy.gameya.domain.enums.PaymentStatus
 import dev.sobhy.gameya.domain.model.Cycle
 import dev.sobhy.gameya.domain.model.Payment
+import javax.inject.Inject
 import kotlin.collections.map
 
-class GetPaymentsWithStatusUseCase {
+class GetPaymentsWithStatusUseCase @Inject constructor() {
 
     operator fun invoke(
         payments: List<Payment>,

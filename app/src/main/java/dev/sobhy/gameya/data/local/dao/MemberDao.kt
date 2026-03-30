@@ -14,4 +14,7 @@ interface MemberDao {
 
     @Query("SELECT * FROM members WHERE groupId = :groupId")
     fun getMembers(groupId: Long): Flow<List<MemberEntity>>
+
+    @Query("SELECT * FROM members ORDER BY id ASC")
+    suspend fun getAllMembers(): List<MemberEntity>
 }

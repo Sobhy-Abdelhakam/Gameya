@@ -1,3 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Gameya</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_empty_title">No groups yet</string>
+    <string name="dashboard_empty_body">Create your first Gam\'eya group to start collecting and tracking cycles.</string>
+    <string name="dashboard_create_group">Create Group</string>
+    <string name="dashboard_summary_title">Portfolio overview</string>
+    <string name="dashboard_summary_metric_groups">Groups</string>
+    <string name="dashboard_summary_metric_inflow">Monthly inflow</string>
+    <string name="dashboard_group_view_details">View details</string>
+    <string name="dashboard_fab_add_group">Create new group</string>
+    <string name="prefix_contribution">Contribution</string>
+    <string name="prefix_monthly_inflow">Monthly inflow</string>
+
+    <!-- Group details -->
+    <string name="group_details_members_section">Members</string>
+    <string name="group_details_shares_section">Payout order</string>
+    <string name="group_details_shares_hint">Long press and drag to reorder share payouts</string>
+    <string name="group_details_cycles_section">Cycles</string>
+    <string name="group_details_empty_members_title">No members added yet</string>
+    <string name="group_details_empty_members_body">Add members to start assigning shares and cycles.</string>
+    <string name="group_details_empty_shares_title">No shares assigned yet</string>
+    <string name="group_details_empty_shares_body">Shares will appear here after member allocations.</string>
+    <string name="group_details_empty_cycles_title">No cycles generated yet</string>
+    <string name="group_details_empty_cycles_body">Cycles will be listed after schedule creation.</string>
+    <string name="group_details_member_shares">Owns %1$s shares</string>
+    <string name="group_details_share_fraction">%1$s share</string>
+    <string name="group_details_payout_order_chip">Order #%1$d</string>
+    <string name="group_details_unknown_member">Unknown member</string>
+    <string name="group_details_prefix_contribution_share">Contribution per share</string>
+    <string name="group_details_cycle_payout_to">Payout to: %1$s</string>
+    <string name="group_details_payout_not_assigned">Not assigned</string>
+    <string name="group_details_status_closed">Closed</string>
+    <string name="group_details_status_active">Active</string>
+    <string name="group_details_cycle_line">Cycle #%1$d · %2$s</string>
+    <string name="group_details_empty_generic_title">Nothing to show</string>
+    <string name="group_details_header_stats">%1$d members · %2$d shares · %3$d cycles</string>
+    <string name="group_tab_members">Members</string>
+    <string name="group_tab_shares">Shares</string>
+    <string name="group_tab_cycles">Cycles</string>
+    <string name="group_cycle_open_payments_a11y">Open payments for cycle %1$d</string>
+
+    <!-- Cycle payments / ledger -->
+    <string name="payments_error_load">Failed to load payments</string>
+    <string name="payments_empty_title">No payments yet</string>
+    <string name="payments_empty_body">When this cycle starts, member contributions will show here. You can record payments as they come in.</string>
+    <string name="payments_ledger_title">Cycle ledger</string>
+    <string name="payments_ledger_subtitle">Expected collection and what is still outstanding</string>
+    <string name="payments_expected_prefix">Expected total</string>
+    <string name="payments_collected_prefix">Collected</string>
+    <string name="payments_collected_percent">%1$d%% collected</string>
+    <string name="payments_remaining">Remaining: %1$s %2$s</string>
+    <string name="currency_suffix">EGP</string>
+    <string name="payments_chip_paid">Paid · %1$d</string>
+    <string name="payments_chip_late">Late · %1$d</string>
+    <string name="payments_chip_pending">Pending · %1$d</string>
+    <string name="payments_late_banner_title">Late payments</string>
+    <string name="payments_late_banner_body">One or more members are past due. Follow up to keep the cycle on track.</string>
+    <string name="payments_cycle_complete_title">Cycle complete 🎉</string>
+    <string name="payments_cycle_complete_body">Everyone has paid for this cycle. Great work.</string>
+    <string name="payment_member_subtitle">Member contribution</string>
+    <string name="payment_record">Record payment</string>
+    <string name="payment_recorded">Payment recorded</string>
+    <string name="payment_status_paid">Paid</string>
+    <string name="payment_status_pending">Pending</string>
+    <string name="payment_status_late">Late</string>
+    <string name="unknown_member">Unknown</string>
+    <string name="payments_progress_a11y">Collection progress: %1$d percent</string>
+    <string name="payments_loading">Loading payments</string>
+
+    <!-- Data safety / backup -->
+    <string name="data_safety_title">Data &amp; backup</string>
+    <string name="data_safety_nav_content_description">Open data and backup</string>
+    <string name="data_safety_section_backup">Backup</string>
+    <string name="data_safety_section_export">Export</string>
+    <string name="data_safety_section_history">History</string>
+    <string name="data_safety_last_backup_never">No backup yet. We recommend backing up before large changes.</string>
+    <string name="data_safety_last_backup_relative">Last backup: %1$s</string>
+    <string name="data_safety_time_just_now">just now</string>
+    <string name="data_safety_time_minutes_ago">%1$d min ago</string>
+    <string name="data_safety_time_hours_ago">%1$d h ago</string>
+    <string name="data_safety_time_days_ago">%1$d days ago</string>
+    <string name="data_safety_backup_now">Backup now</string>
+    <string name="data_safety_restore">Restore from file</string>
+    <string name="data_safety_restore_title">Restore backup?</string>
+    <string name="data_safety_restore_body">This replaces all data in this app with the backup file. This cannot be undone.</string>
+    <string name="data_safety_restore_confirm">Choose file</string>
+    <string name="data_safety_restore_dismiss">Cancel</string>
+    <string name="data_safety_export_groups_csv">Export groups (CSV)</string>
+    <string name="data_safety_export_payments_csv">Export payments (CSV)</string>
+    <string name="data_safety_backup_success">Backup saved successfully.</string>
+    <string name="data_safety_restore_success">Data restored from backup.</string>
+    <string name="data_safety_export_saved">Saved: %1$s</string>
+    <string name="data_safety_payments_audit_title">Payments (recorded times)</string>
+    <string name="data_safety_payout_history_title">Cycle payouts</string>
+    <string name="data_safety_paid_at">Paid: %1$s</string>
+    <string name="data_safety_not_paid_yet">Not paid yet</string>
+    <string name="data_safety_payout_line">Cycle #%1$d · %2$s · %3$s · %4$s</string>
+
 </resources>

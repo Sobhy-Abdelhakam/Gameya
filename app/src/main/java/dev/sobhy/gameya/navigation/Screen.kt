@@ -10,4 +10,6 @@ sealed class Screen(val route: String) {
     object CyclePayments : Screen("cycle_payments/{cycleId}") {
         fun createRoute(cycleId: Long) = "cycle_payments/$cycleId"
     }
+
+    object DataSafety : Screen("data_safety")
 }

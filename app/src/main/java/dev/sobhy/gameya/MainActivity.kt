@@ -13,13 +13,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
 import dev.sobhy.gameya.navigation.AppNavHost
-import dev.sobhy.gameya.presentation.group.CreateGroupScreen
+import dev.sobhy.gameya.worker.BackupWorkScheduler
 import dev.sobhy.gameya.ui.theme.GameyaTheme
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var backupWorkScheduler: BackupWorkScheduler
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        backupWorkScheduler.schedulePeriodicHourly()
         enableEdgeToEdge()
         setContent {
             GameyaTheme {

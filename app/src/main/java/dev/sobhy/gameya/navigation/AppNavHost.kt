@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import dev.sobhy.gameya.presentation.dashboard.DashboardScreen
 import dev.sobhy.gameya.presentation.group.CreateGroupScreen
 import dev.sobhy.gameya.presentation.groupdetails.GroupDetailsScreen
+import dev.sobhy.gameya.presentation.datasafety.DataSafetyScreen
 import dev.sobhy.gameya.presentation.payments.CyclePaymentsScreen
 
 @Composable
@@ -19,6 +20,9 @@ fun AppNavHost(modifier: Modifier = Modifier) {
     NavHost(navController = navController, startDestination = Screen.Dashboard.route, modifier = modifier){
         composable(Screen.Dashboard.route) {
             DashboardScreen(navController)
+        }
+        composable(Screen.DataSafety.route) {
+            DataSafetyScreen(navController = navController)
         }
         composable(Screen.CreateGroup.route){
             CreateGroupScreen(navController)

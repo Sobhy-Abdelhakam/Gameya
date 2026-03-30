@@ -1,6 +1,6 @@
 package dev.sobhy.gameya.presentation.dashboard
 
-import androidx.compose.foundation.clickable
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,27 +14,41 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
+import dev.sobhy.gameya.R
 import dev.sobhy.gameya.domain.model.Group
 import dev.sobhy.gameya.navigation.Screen
+import dev.sobhy.gameya.presentation.common.EmptyStateCard
+import dev.sobhy.gameya.presentation.common.MoneyText
+import dev.sobhy.gameya.presentation.common.SectionHeader
+import dev.sobhy.gameya.ui.theme.AppSpacing
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
     navController: NavController,
@@ -43,12 +57,26 @@ fun DashboardScreen(
     val state by viewModel.state.collectAsState()
 
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.app_name)) },
+                actions = {
+                    IconButton(
+                        onClick = { navController.navigate(Screen.DataSafety.route) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = stringResource(R.string.data_safety_nav_content_description)
+                        )
+                    }
+                }
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { navController.navigate(Screen.CreateGroup.route) }
             ) {
                 Text("+")
-//                Icon(Icons.Default.Add, contentDescription = "Add Group")
             }
         }
     ) { padding ->
@@ -89,8 +117,13 @@ fun DashboardContent(
     onGroupClick: (Long) -> Unit
 ) {
     LazyColumn(
-        contentPadding = padding,
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(
+            start = AppSpacing.sm,
+            top = padding.calculateTopPadding() + AppSpacing.xs,
+            end = AppSpacing.sm,
+            bottom = padding.calculateBottomPadding() + 88.dp
+        ),
+        verticalArrangement = Arrangement.spacedBy(AppSpacing.sm),
         modifier = Modifier.fillMaxSize()
     ) {
 
@@ -99,7 +132,7 @@ fun DashboardContent(
         }
 
         items(state.groups) { group ->
-            GroupItem(
+            GroupCard(
                 group = group,
                 onClick = { onGroupClick(group.id) }
             )
@@ -108,39 +141,41 @@ fun DashboardContent(
 }
 
 @Composable
-fun GroupItem(
+fun GroupCard(
     group: Group,
     onClick: () -> Unit
 ) {
     Card(
         onClick = onClick,
         shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-        modifier = Modifier.fillMaxWidth()
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .animateContentSize()
     ) {
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(AppSpacing.sm)
         ) {
-
-            Text(
-                text = group.name,
-                style = MaterialTheme.typography.titleLarge
+            SectionHeader(
+                title = group.name,
+                subtitle = group.cycleType.name.lowercase().replaceFirstChar { it.uppercase() }
             )
 
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(AppSpacing.xs))
 
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(
-                    text = "💰 ${group.contributionPerShare}",
-                    style = MaterialTheme.typography.bodyMedium
+                MoneyText(
+                    amount = group.contributionPerShare,
+                    prefix = stringResource(R.string.prefix_contribution)
                 )
 
                 Text(
-                    text = "🔁 ${group.cycleType}",
-                    style = MaterialTheme.typography.bodyMedium
+                    text = stringResource(R.string.dashboard_group_view_details),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
         }
@@ -155,34 +190,24 @@ fun EmptyState(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(AppSpacing.md),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        Text(
-            text = "📭",
-            style = MaterialTheme.typography.displayMedium
+        EmptyStateCard(
+            title = stringResource(R.string.dashboard_empty_title),
+            description = stringResource(R.string.dashboard_empty_body)
         )
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(AppSpacing.md))
 
-        Text(
-            text = "No groups yet",
-            style = MaterialTheme.typography.titleMedium
-        )
-
-        Spacer(Modifier.height(8.dp))
-
-        Text(
-            text = "Start by creating your first Gam'eya",
-            style = MaterialTheme.typography.bodyMedium
-        )
-
-        Spacer(Modifier.height(24.dp))
-
-        Button(onClick = onCreateClick) {
-            Text("Create Group")
+        Button(
+            onClick = onCreateClick,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = AppSpacing.sm)
+        ) {
+            Text(stringResource(R.string.dashboard_create_group))
         }
     }
 }

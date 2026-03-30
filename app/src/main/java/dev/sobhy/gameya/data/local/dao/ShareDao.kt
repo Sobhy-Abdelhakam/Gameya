@@ -15,6 +15,9 @@ interface ShareDao {
     @Query("SELECT * FROM shares WHERE groupId = :groupId ORDER BY orderIndex")
     fun getShares(groupId: Long): Flow<List<ShareEntity>>
 
+    @Query("SELECT * FROM shares ORDER BY id ASC")
+    suspend fun getAllShares(): List<ShareEntity>
+
     @Query("UPDATE shares SET orderIndex = :newIndex WHERE id = :shareId")
     suspend fun updateOrder(shareId: Long, newIndex: Int)
 }

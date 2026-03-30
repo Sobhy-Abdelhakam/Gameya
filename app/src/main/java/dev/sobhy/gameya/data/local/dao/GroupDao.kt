@@ -19,6 +19,9 @@ interface GroupDao {
     @Query("SELECT * FROM `groups` WHERE id = :groupId")
     fun getGroupById(groupId: Long): Flow<GroupEntity>
 
+    @Query("SELECT * FROM `groups` ORDER BY id ASC")
+    suspend fun getAllGroupsSnapshot(): List<GroupEntity>
+
     @Delete
     suspend fun deleteGroup(group: GroupEntity)
 }
