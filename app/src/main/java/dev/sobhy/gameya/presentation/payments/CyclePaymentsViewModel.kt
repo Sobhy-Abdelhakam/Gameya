@@ -4,7 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.sobhy.gameya.domain.repository.GroupRepository
 import dev.sobhy.gameya.domain.usecase.GetCyclePaymentsUseCase
+import dev.sobhy.gameya.domain.usecase.GetPaymentsWithStatusUseCase
 import dev.sobhy.gameya.domain.usecase.RecordPaymentUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,6 +18,8 @@ import javax.inject.Inject
 class CyclePaymentsViewModel @Inject constructor(
     private val getCyclePayments: GetCyclePaymentsUseCase,
     private val recordPayment: RecordPaymentUseCase,
+    private val getPaymentsWithStatus: GetPaymentsWithStatusUseCase,
+    private val repository: GroupRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val cycleId: Long = checkNotNull(
@@ -31,11 +35,20 @@ class CyclePaymentsViewModel @Inject constructor(
 
     private fun loadPayments() {
         viewModelScope.launch {
+
+            val cycle = repository.getCycleById(cycleId)
+
             getCyclePayments(cycleId).collect { payments ->
+
+                val updatedPayments = getPaymentsWithStatus(
+                    payments = payments,
+                    cycle = cycle
+                )
+
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        payments = payments
+                        payments = updatedPayments
                     )
                 }
             }

@@ -1,5 +1,6 @@
 package dev.sobhy.gameya.domain.repository
 
+import dev.sobhy.gameya.domain.model.Cycle
 import dev.sobhy.gameya.domain.model.Group
 import dev.sobhy.gameya.domain.model.GroupDetails
 import dev.sobhy.gameya.domain.model.Member
@@ -23,4 +24,5 @@ interface GroupRepository {
     fun getCyclePayments(cycleId: Long): Flow<List<Payment>>
 
     suspend fun markPaymentAsPaid(paymentId: Long)
+    suspend fun getCycleById(cycleId: Long): Cycle
 }

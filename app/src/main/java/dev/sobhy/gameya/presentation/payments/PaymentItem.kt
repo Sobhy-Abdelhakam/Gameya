@@ -32,8 +32,8 @@ fun PaymentItem(
 
     val statusColor = when (status) {
         PaymentStatus.PAID -> Color(0xFF4CAF50)
-        PaymentStatus.UNPAID -> Color(0xFFF44336)
-        PaymentStatus.LATE -> Color(0xFFFF9800)
+        PaymentStatus.UNPAID -> Color.Gray
+        PaymentStatus.LATE -> Color(0xFFF44336)
     }
 
     Card(
@@ -79,7 +79,11 @@ fun PaymentItem(
                         .padding(horizontal = 12.dp, vertical = 6.dp)
                 ) {
                     Text(
-                        text = status.name,
+                        text = when (status) {
+                            PaymentStatus.PAID -> "Paid ✅"
+                            PaymentStatus.UNPAID -> "Pending"
+                            PaymentStatus.LATE -> "Late ⚠️"
+                        },
                         color = statusColor
                     )
                 }

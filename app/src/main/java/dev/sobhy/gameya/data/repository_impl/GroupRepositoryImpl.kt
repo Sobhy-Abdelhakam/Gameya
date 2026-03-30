@@ -5,6 +5,7 @@ import dev.sobhy.gameya.data.local.AppDatabase
 import dev.sobhy.gameya.data.mapper.toDomain
 import dev.sobhy.gameya.data.mapper.toEntity
 import dev.sobhy.gameya.domain.enums.PaymentStatus
+import dev.sobhy.gameya.domain.model.Cycle
 import dev.sobhy.gameya.domain.model.Group
 import dev.sobhy.gameya.domain.model.Member
 import dev.sobhy.gameya.domain.model.GroupDetails
@@ -58,9 +59,12 @@ class GroupRepositoryImpl @Inject constructor(
             insertedShares.map { it.toDomain() }
         )
 
-        db.cycleDao().insertCycles(cycles.map { it.toEntity() })
+        val cycleIds = db.cycleDao().insertCycles(cycles.map { it.toEntity() })
+        val cyclesWithIds = cycles.mapIndexed { index, cycle ->
+            cycle.copy(id = cycleIds[index])
+        }
 
-        val payments = cycles.flatMap { cycle ->
+        val payments = cyclesWithIds.flatMap { cycle ->
             generatePayments(
                 cycleId = cycle.id,
                 members = members,
@@ -114,5 +118,8 @@ class GroupRepositoryImpl @Inject constructor(
             status = PaymentStatus.PAID.name,
             paidAt = System.currentTimeMillis()
         )
+    }
+    override suspend fun getCycleById(cycleId: Long): Cycle {
+        return db.cycleDao().getCycleById(cycleId).toDomain()
     }
 }
