@@ -4,11 +4,14 @@ import androidx.room.Transaction
 import dev.sobhy.gameya.data.local.AppDatabase
 import dev.sobhy.gameya.data.mapper.toDomain
 import dev.sobhy.gameya.data.mapper.toEntity
+import dev.sobhy.gameya.domain.enums.PaymentStatus
 import dev.sobhy.gameya.domain.model.Group
 import dev.sobhy.gameya.domain.model.Member
 import dev.sobhy.gameya.domain.model.GroupDetails
+import dev.sobhy.gameya.domain.model.Payment
 import dev.sobhy.gameya.domain.repository.GroupRepository
 import dev.sobhy.gameya.domain.usecase.generateCycles
+import dev.sobhy.gameya.domain.usecase.generatePayments
 import dev.sobhy.gameya.domain.usecase.generateShares
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -57,6 +60,15 @@ class GroupRepositoryImpl @Inject constructor(
 
         db.cycleDao().insertCycles(cycles.map { it.toEntity() })
 
+        val payments = cycles.flatMap { cycle ->
+            generatePayments(
+                cycleId = cycle.id,
+                members = members,
+                contributionPerShare = group.contributionPerShare
+            )
+        }
+        db.paymentDao().insertPayments(payments.map { it.toEntity() })
+
         return groupId
     }
 
@@ -88,5 +100,19 @@ class GroupRepositoryImpl @Inject constructor(
         updates.forEach { (id, orderIndex) ->
             db.shareDao().updateOrder(id, orderIndex)
         }
+    }
+
+    override fun getCyclePayments(cycleId: Long): Flow<List<Payment>> {
+        return db.paymentDao()
+            .getPayments(cycleId)
+            .map { list -> list.map { it.toDomain() } }
+    }
+
+    override suspend fun markPaymentAsPaid(paymentId: Long) {
+        db.paymentDao().updatePaymentStatus(
+            paymentId = paymentId,
+            status = PaymentStatus.PAID.name,
+            paidAt = System.currentTimeMillis()
+        )
     }
 }

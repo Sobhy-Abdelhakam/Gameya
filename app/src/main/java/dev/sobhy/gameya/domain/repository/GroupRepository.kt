@@ -3,6 +3,7 @@ package dev.sobhy.gameya.domain.repository
 import dev.sobhy.gameya.domain.model.Group
 import dev.sobhy.gameya.domain.model.GroupDetails
 import dev.sobhy.gameya.domain.model.Member
+import dev.sobhy.gameya.domain.model.Payment
 import kotlinx.coroutines.flow.Flow
 
 interface GroupRepository {
@@ -18,4 +19,8 @@ interface GroupRepository {
 
     //    suspend fun updateShareOrder(shareId: Long, newIndex: Int)
     suspend fun updateSharesOrderBulk(updates: List<Pair<Long, Int>>)
+
+    fun getCyclePayments(cycleId: Long): Flow<List<Payment>>
+
+    suspend fun markPaymentAsPaid(paymentId: Long)
 }
